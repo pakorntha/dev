@@ -194,7 +194,7 @@ $latestReviewed = array_slice($latestReviewed, 0, 8);
                     <p class="text-sm text-white font-medium truncate"><?= htmlspecialchars($studentName) ?></p>
                     <p class="text-xs text-gray-400 truncate">นักเรียน</p>
                 </div>
-                <a href="../logout.php" class="text-gray-400 hover:text-red-400 transition-colors" title="ออกจากระบบ">
+                <a href="../../system/logout.php" class="text-gray-400 hover:text-red-400 transition-colors" title="ออกจากระบบ">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
                 </a>
             </div>
