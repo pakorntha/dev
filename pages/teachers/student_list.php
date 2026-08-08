@@ -118,7 +118,7 @@ if (!empty($selected_classroom_id)) {
                 <p class="px-3 text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-2">งานวิชาการ</p>
                 <ul class="space-y-1">
                     <li><a href="students.php" class="flex items-center gap-3 px-3 py-2 bg-blue-600 text-white rounded transition-colors shadow-sm"><i class="fa-solid fa-users w-5 text-center"></i> นักเรียนและห้องเรียน</a></li>
-                    <li><a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i class="fa-solid fa-chalkboard-user w-5 text-center"></i> การมาเรียนนักเรียน</a></li>
+                    <li><a href="atten.php" class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i class="fa-solid fa-chalkboard-user w-5 text-center"></i> การมาเรียนนักเรียน</a></li>
                     <li><a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i class="fa-solid fa-book-open w-5 text-center"></i> แผนการสอน</a></li>
                 </ul>
             </div>

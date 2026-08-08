@@ -91,6 +91,24 @@ CREATE TABLE `studentprofile` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `attendance`
+--
+
+CREATE TABLE `attendance` (
+  `id` varchar(191) NOT NULL,
+  `studentProfileId` int NOT NULL,
+  `classroomId` varchar(191) NOT NULL,
+  `attendanceDate` date NOT NULL,
+  `status` enum('present','late','sick','leave','absent','unknown') NOT NULL DEFAULT 'present',
+  `note` text,
+  `markedBy` int DEFAULT NULL,
+  `createdAt` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `updatedAt` datetime(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `submission`
 --
 
@@ -167,6 +185,15 @@ ALTER TABLE `studentprofile`
   ADD KEY `StudentProfile_classroomId_fkey` (`classroomId`);
 
 --
+-- Indexes for table `attendance`
+--
+ALTER TABLE `attendance`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `Attendance_studentProfileId_attendanceDate_key` (`studentProfileId`,`attendanceDate`),
+  ADD KEY `Attendance_classroomId_fkey` (`classroomId`),
+  ADD KEY `Attendance_markedBy_fkey` (`markedBy`);
+
+--
 -- Indexes for table `submission`
 --
 ALTER TABLE `submission`
@@ -226,6 +253,14 @@ ALTER TABLE `courseclassroom`
 ALTER TABLE `studentprofile`
   ADD CONSTRAINT `StudentProfile_classroomId_fkey` FOREIGN KEY (`classroomId`) REFERENCES `classroom` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `StudentProfile_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `attendance`
+--
+ALTER TABLE `attendance`
+  ADD CONSTRAINT `Attendance_studentProfileId_fkey` FOREIGN KEY (`studentProfileId`) REFERENCES `studentprofile` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `Attendance_classroomId_fkey` FOREIGN KEY (`classroomId`) REFERENCES `classroom` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `Attendance_markedBy_fkey` FOREIGN KEY (`markedBy`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `submission`
