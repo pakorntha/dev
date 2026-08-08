@@ -21,6 +21,8 @@ if (!function_exists('sis4_teacher_sidebar_render')) {
         $lessionPlanActive = $currentPage === 'lession_plan.php';
         $supervisionActive = $currentPage === 'supervision.php';
         $leaveActive = $currentPage === 'leave.php';
+        $calendarActive = $currentPage === 'calendar.php';
+        $officialTripActive = $currentPage === 'official_trip.php';
         $asideClass = trim('w-64 bg-gray-900 text-gray-300 flex flex-col h-full flex-shrink-0 ' . $extraAsideClass);
         ?>
         <aside class="<?= htmlspecialchars($asideClass, ENT_QUOTES, 'UTF-8') ?>">
@@ -80,8 +82,8 @@ if (!function_exists('sis4_teacher_sidebar_render')) {
                         </li>
                         <li><a href="leave.php" class="<?= sis4_teacher_sidebar_link_class($leaveActive) ?>"><i
                                     class="fa-regular fa-calendar-minus w-5 text-center"></i> การลา</a></li>
-                        <li><a href="#"
-                                class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i
+                        <li><a href="official_trip.php"
+                                class="<?= sis4_teacher_sidebar_link_class($officialTripActive) ?>"><i
                                     class="fa-solid fa-plane w-5 text-center"></i> ไปราชการและอบรม</a></li>
                     </ul>
                 </div>
