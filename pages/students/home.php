@@ -24,7 +24,43 @@ if ($stmt->rowCount() === 1) {
     $fullName = $user['prefix'] . $user['firstName'] . ' ' . $user['lastName'];
     // ดึงตัวอักษรตัวแรกของชื่อมาทำเป็นรูปโปรไฟล์แบบย่อ
     $initial = mb_substr($user['firstName'], 0, 1, 'UTF-8');
-    
+    $studentProfileId = null;
+    $classroomId = null;
+    $assignmentStats = [
+        'thisWeek' => 0,
+        'overdue' => 0,
+    ];
+
+    $stmt_profile = dd_q("SELECT id, classroomId FROM studentprofile WHERE userId = ? LIMIT 1", [$_SESSION['id']]);
+    if ($stmt_profile->rowCount() === 1) {
+        $studentProfile = $stmt_profile->fetch(PDO::FETCH_ASSOC);
+        $studentProfileId = $studentProfile['id'];
+        $classroomId = $studentProfile['classroomId'];
+
+        if (!empty($classroomId)) {
+            $stmt_stats = dd_q("
+                SELECT
+                    COALESCE(SUM(CASE
+                        WHEN sub.id IS NULL
+                         AND a.dueDate IS NOT NULL
+                         AND a.dueDate >= NOW()
+                         AND a.dueDate < DATE_ADD(NOW(), INTERVAL 7 DAY)
+                        THEN 1 ELSE 0 END), 0) AS thisWeekAssignments,
+                    COALESCE(SUM(CASE
+                        WHEN sub.id IS NULL
+                         AND a.dueDate IS NOT NULL
+                         AND a.dueDate < NOW()
+                        THEN 1 ELSE 0 END), 0) AS overdueAssignments
+                FROM assignment a
+                INNER JOIN courseclassroom cc ON a.courseId = cc.courseId
+                LEFT JOIN submission sub ON sub.assignmentId = a.id AND sub.studentId = ?
+                WHERE cc.classroomId = ?
+            ", [$studentProfileId, $classroomId]);
+
+            $assignmentStats = $stmt_stats->fetch(PDO::FETCH_ASSOC) ?: $assignmentStats;
+        }
+    }
+
 } else {
     // ถ้าไม่พบข้อมูลให้บังคับล็อกเอาท์
     session_destroy();
@@ -96,7 +132,7 @@ if ($stmt->rowCount() === 1) {
                         </a>
                     </li>
                     <li>
-                        <a href="score.php" class="flex items-center gap-3 px-3 py-2.5 hover:bg-gray-800 hover:text-white rounded-lg transition-colors">
+                        <a href="homework.php" class="flex items-center gap-3 px-3 py-2.5 hover:bg-gray-800 hover:text-white rounded-lg transition-colors">
                             <i class="fa-solid fa-book-open w-5 text-center"></i>
                             การบ้านและชิ้นงาน
                         </a>
@@ -206,8 +242,8 @@ if ($stmt->rowCount() === 1) {
                         <div class="w-8 h-8 rounded-lg bg-orange-50 text-orange-600 flex items-center justify-center"><i class="fa-solid fa-list-check"></i></div>
                     </div>
                     <div>
-                        <p class="text-3xl font-bold text-gray-900">4</p>
-                        <p class="text-xs text-red-500 mt-1">ค้างส่ง 1 รายการ</p>
+                        <p class="text-3xl font-bold text-gray-900"><?= htmlspecialchars((string)($assignmentStats['thisWeekAssignments'] ?? 0)) ?></p>
+                        <p class="text-xs text-red-500 mt-1">ค้างส่ง <?= htmlspecialchars((string)($assignmentStats['overdueAssignments'] ?? 0)) ?> รายการ</p>
                     </div>
                 </div>
 
@@ -251,7 +287,7 @@ if ($stmt->rowCount() === 1) {
                         <h3 class="font-bold text-gray-900 flex items-center gap-2">
                             <i class="fa-solid fa-book-open-reader text-blue-600"></i> การบ้านและชิ้นงานล่าสุด
                         </h3>
-                        <a href="#" class="text-sm text-blue-600 hover:text-blue-800 font-medium">ดูงานทั้งหมด</a>
+                        <a href="homework.php" class="text-sm text-blue-600 hover:text-blue-800 font-medium">ดูงานทั้งหมด</a>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm">
