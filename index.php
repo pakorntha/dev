@@ -5,7 +5,7 @@ error_reporting(0);
 require_once("system/a_func.php"); 
 
 if (!isset($_SESSION['id'])) {
-    header("Location: login.php");
+    header("Location: pages/login.php");
     exit();
 }
 
