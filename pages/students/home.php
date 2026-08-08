@@ -72,7 +72,7 @@ if ($stmt->rowCount() === 1) {
                     <i class="fa-solid fa-building-columns text-gray-400"></i>
                 </div>
                 <div class="text-xs">
-                    <p class="text-white font-medium">โรงเรียนบ้านหนองปลาซิว</p>
+                    <p class="text-white font-medium">โรงเรียนบ้านหนองฮี</p>
                     <p class="text-gray-400 mt-0.5">ปีการศึกษา 2569</p>
                 </div>
             </div>
