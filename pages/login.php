@@ -139,7 +139,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     });
 </script>
 <?php endif; ?>
-=======
     <title>Login - SiS4 SCHOOL</title>
     <!-- เรียกใช้งาน Tailwind CSS ผ่าน CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
