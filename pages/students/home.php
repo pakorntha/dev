@@ -7,16 +7,17 @@ require_once("../../system/a_func.php");
 //     exit();
 // }
 
-$stmt = dd_q("SELECT * FROM users WHERE id = ? LIMIT 1", [$_SESSION['id']]);
+$stmt = dd_q("SELECT * FROM user WHERE id = ? LIMIT 1", [$_SESSION['id']]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if ($user['rank'] == "1") {
+if ($user['role'] == "admin") {
     header("Location: admin_dashboard.php");
     exit();
 }
 
 // สมมติว่าในฐานข้อมูลคุณมีฟิลด์เหล่านี้ (ถ้าไม่มีให้ไปเพิ่มใน phpMyAdmin หรือแก้โค้ดให้ตรง)
-$fullname = htmlspecialchars($user['username'] ?? 'ไม่ระบุชื่อ'); // ดึงชื่อ
+$firstname = htmlspecialchars($user['firstname'] ?? 'ไม่ระบุชื่อ'); // ดึงชื่อ
+$lastname = htmlspecialchars($user['lastname'] ?? 'ไม่ระบุชื่อ'); // ดึงชื่อ
 $student_id = htmlspecialchars($user['student_id'] ?? '660000000'); // ดึงรหัสนักศึกษา
 $faculty = htmlspecialchars($user['faculty'] ?? 'วิทยาการคอมพิวเตอร์'); // ดึงคณะ/สาขา
 $gpa = htmlspecialchars($user['gpa'] ?? '3.50');
@@ -50,11 +51,11 @@ $gpa = htmlspecialchars($user['gpa'] ?? '3.50');
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <span class="nav-link text-white">สวัสดี, <?php echo $fullname; ?></span>
+                    <span class="nav-link text-white">สวัสดี, <?php echo $firstname; ?></span>
                 </li>
                 <li class="nav-item">
                     <!-- สมมติว่ามีไฟล์ logout.php สำหรับเคลียร์ session -->
-                    <a class="nav-link text-danger fw-bold bg-light rounded px-3 ms-2" href="logout.php">
+                    <a class="nav-link text-danger fw-bold bg-light rounded px-3 ms-2" href="../../system/logout.php">
                         <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
                     </a>
                 </li>
