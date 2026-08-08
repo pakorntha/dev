@@ -78,7 +78,7 @@ if ($stmt->rowCount() === 1) {
               <div>
                 <p class="px-3 text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-2">งานรายวิชาที่รับผิดชอบ</p>
                 <ul class="space-y-1">
-                    <li><a href="pages/teachers/homework.php" class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i class="fa-solid fa-inbox w-5 text-center"></i> มอบหมายงาน / การบ้าน</a></li>
+                    <li><a href="./homework.php" class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i class="fa-solid fa-inbox w-5 text-center"></i> มอบหมายงาน / การบ้าน</a></li>
 
                 </ul>
             </div>              
