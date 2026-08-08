@@ -98,7 +98,12 @@ CREATE TABLE `submission` (
   `id` varchar(191) NOT NULL,
   `assignmentId` varchar(191) NOT NULL,
   `studentId` int NOT NULL,
+  `fileName` varchar(255) DEFAULT NULL,
+  `filePath` varchar(255) DEFAULT NULL,
+  `status` enum('pending','reviewed') NOT NULL DEFAULT 'pending',
   `score` double DEFAULT NULL,
+  `feedback` text,
+  `reviewedAt` datetime(3) DEFAULT NULL,
   `submittedAt` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
   `updatedAt` datetime(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;

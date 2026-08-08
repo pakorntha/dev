@@ -9,6 +9,106 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
+$uploadMessage = $_GET['msg'] ?? null;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'upload_assignment') {
+    $assignmentId = $_POST['assignment_id'] ?? '';
+
+    if ($assignmentId === '' || !isset($_FILES['submission_file'])) {
+        header("Location: homework.php?msg=upload_error");
+        exit();
+    }
+
+    $stmt_assignment = dd_q(
+        "
+            SELECT a.id, a.title, sp.id AS studentProfileId, sp.classroomId
+            FROM assignment a
+            INNER JOIN courseclassroom cc ON cc.courseId = a.courseId
+            INNER JOIN studentprofile sp ON sp.classroomId = cc.classroomId
+            WHERE a.id = ? AND sp.userId = ?
+            LIMIT 1
+        ",
+        [$assignmentId, $_SESSION['id']]
+    );
+
+    if ($stmt_assignment->rowCount() === 0) {
+        header("Location: homework.php?msg=missing_assignment");
+        exit();
+    }
+
+    $assignmentInfo = $stmt_assignment->fetch(PDO::FETCH_ASSOC);
+    $studentProfileId = $assignmentInfo['studentProfileId'];
+
+    if (!empty($_FILES['submission_file']['error']) && $_FILES['submission_file']['error'] !== UPLOAD_ERR_OK) {
+        header("Location: homework.php?msg=upload_error");
+        exit();
+    }
+
+    if (($_FILES['submission_file']['size'] ?? 0) > 10 * 1024 * 1024) {
+        header("Location: homework.php?msg=too_large");
+        exit();
+    }
+
+    $originalName = $_FILES['submission_file']['name'] ?? 'submission.pdf';
+    $tmpPath = $_FILES['submission_file']['tmp_name'] ?? '';
+    $fileExtension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+
+    $fileInfo = finfo_open(FILEINFO_MIME_TYPE);
+    $mimeType = $fileInfo ? finfo_file($fileInfo, $tmpPath) : null;
+    if ($fileInfo) {
+        finfo_close($fileInfo);
+    }
+
+    if ($fileExtension !== 'pdf' || $mimeType !== 'application/pdf') {
+        header("Location: homework.php?msg=invalid_pdf");
+        exit();
+    }
+
+    $uploadDir = __DIR__ . '/../../uploads/submissions';
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+    }
+
+    $safeFileName = 'SUB_' . $assignmentId . '_' . $studentProfileId . '_' . uniqid() . '.pdf';
+    $destinationPath = $uploadDir . '/' . $safeFileName;
+    $relativePath = 'uploads/submissions/' . $safeFileName;
+
+    if (!move_uploaded_file($tmpPath, $destinationPath)) {
+        header("Location: homework.php?msg=upload_error");
+        exit();
+    }
+
+    $stmt_existing = dd_q(
+        "SELECT id, filePath FROM submission WHERE assignmentId = ? AND studentId = ? LIMIT 1",
+        [$assignmentId, $studentProfileId]
+    );
+
+    $existingSubmission = $stmt_existing->fetch(PDO::FETCH_ASSOC);
+    if ($existingSubmission) {
+        dd_q(
+            "UPDATE submission SET fileName = ?, filePath = ?, status = 'pending', score = NULL, feedback = NULL, reviewedAt = NULL, submittedAt = NOW(3), updatedAt = NOW(3) WHERE id = ?",
+            [$originalName, $relativePath, $existingSubmission['id']]
+        );
+        if (!empty($existingSubmission['filePath'])) {
+            $oldPath = __DIR__ . '/../../' . ltrim($existingSubmission['filePath'], '/');
+            if (is_file($oldPath)) {
+                @unlink($oldPath);
+            }
+        }
+        header("Location: homework.php?msg=updated");
+        exit();
+    }
+
+    $submissionId = 'SUB_' . uniqid();
+    dd_q(
+        "INSERT INTO submission (id, assignmentId, studentId, fileName, filePath, status, submittedAt, updatedAt) VALUES (?, ?, ?, ?, ?, 'pending', NOW(3), NOW(3))",
+        [$submissionId, $assignmentId, $studentProfileId, $originalName, $relativePath]
+    );
+
+    header("Location: homework.php?msg=submitted");
+    exit();
+}
+
 // ดึงข้อมูลนักเรียนจากฐานข้อมูล
 $stmt_user = dd_q("SELECT * FROM user WHERE id = ? AND role = 'student' LIMIT 1", [$_SESSION['id']]);
 if ($stmt_user->rowCount() === 0) {
@@ -32,10 +132,10 @@ if ($studentProfile) {
 
     // 3. ดึงข้อมูลการบ้านทั้งหมดของห้องเรียนนี้ + เช็คว่าส่งหรือยัง
     $sql = "
-        SELECT a.id AS assignmentId, a.title, a.description, a.maxScore, a.dueDate, 
+         SELECT a.id AS assignmentId, a.title, a.description, a.maxScore, a.dueDate, 
                c.name AS courseName, c.code AS courseCode,
                t.firstName AS teacherName, t.lastName AS teacherLastName,
-               sub.id AS submissionId, sub.score, sub.updatedAt AS submittedAt
+             sub.id AS submissionId, sub.score, sub.status, sub.feedback, sub.fileName, sub.filePath, sub.updatedAt AS submittedAt
         FROM assignment a
         INNER JOIN course c ON a.courseId = c.id
         INNER JOIN courseclassroom cc ON c.id = cc.courseId
@@ -56,6 +156,14 @@ if ($studentProfile) {
             $completed_tasks[] = $asn;
         }
     }
+}
+
+function homeworkStatusLabel($task) {
+    if (($task['status'] ?? 'pending') === 'reviewed' || $task['score'] !== null) {
+        return ['text' => 'ตรวจแล้ว', 'class' => 'bg-emerald-100 text-emerald-700 border-emerald-200'];
+    }
+
+    return ['text' => 'รอการตรวจ', 'class' => 'bg-orange-100 text-orange-700 border-orange-200'];
 }
 ?>
 <!DOCTYPE html>
@@ -147,6 +255,33 @@ if ($studentProfile) {
         </header>
 
         <main class="flex-1 overflow-y-auto p-6 space-y-6">
+
+            <?php if ($uploadMessage === 'submitted'): ?>
+                <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 rounded flex items-center gap-3">
+                    <i class="fa-solid fa-circle-check text-emerald-600"></i>
+                    <p class="text-sm font-medium">ส่งงานสำเร็จแล้ว ระบบจะเปลี่ยนสถานะเป็นรอการตรวจ</p>
+                </div>
+            <?php elseif ($uploadMessage === 'updated'): ?>
+                <div class="bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded flex items-center gap-3">
+                    <i class="fa-solid fa-rotate text-blue-600"></i>
+                    <p class="text-sm font-medium">อัปโหลดไฟล์ส่งงานใหม่เรียบร้อยแล้ว</p>
+                </div>
+            <?php elseif ($uploadMessage === 'invalid_pdf'): ?>
+                <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded flex items-center gap-3">
+                    <i class="fa-solid fa-triangle-exclamation text-red-600"></i>
+                    <p class="text-sm font-medium">กรุณาอัปโหลดไฟล์ PDF เท่านั้น</p>
+                </div>
+            <?php elseif ($uploadMessage === 'too_large'): ?>
+                <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded flex items-center gap-3">
+                    <i class="fa-solid fa-triangle-exclamation text-red-600"></i>
+                    <p class="text-sm font-medium">ไฟล์มีขนาดใหญ่เกิน 10MB</p>
+                </div>
+            <?php elseif ($uploadMessage === 'upload_error'): ?>
+                <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded flex items-center gap-3">
+                    <i class="fa-solid fa-triangle-exclamation text-red-600"></i>
+                    <p class="text-sm font-medium">ไม่สามารถอัปโหลดไฟล์ได้ กรุณาลองใหม่</p>
+                </div>
+            <?php endif; ?>
             
             <!-- สถิติแบบเร็ว -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -197,7 +332,9 @@ if ($studentProfile) {
                                         $is_overdue = true;
                                     }
                                 ?>
-                                <div class="border <?php echo $is_overdue ? 'border-red-300 bg-red-50/30' : 'border-gray-200'; ?> rounded p-4 flex flex-col hover:shadow-md transition-shadow">
+                                <form action="homework.php" method="POST" enctype="multipart/form-data" class="border <?php echo $is_overdue ? 'border-red-300 bg-red-50/30' : 'border-gray-200'; ?> rounded p-4 flex flex-col hover:shadow-md transition-shadow">
+                                    <input type="hidden" name="action" value="upload_assignment">
+                                    <input type="hidden" name="assignment_id" value="<?php echo htmlspecialchars($task['assignmentId']); ?>">
                                     <div class="mb-2 flex justify-between items-start gap-2">
                                         <span class="bg-gray-100 text-gray-700 px-2 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase"><?php echo htmlspecialchars($task['courseCode']); ?></span>
                                         <?php if ($is_overdue): ?>
@@ -220,10 +357,13 @@ if ($studentProfile) {
                                         </div>
                                     </div>
 
-                                    <button class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded py-2 text-sm font-medium transition-colors">
+                                    <label class="block text-xs font-medium text-gray-600 mb-1">แนบไฟล์ PDF</label>
+                                    <input type="file" name="submission_file" accept="application/pdf,.pdf" required class="w-full text-xs text-gray-600 border border-gray-200 rounded bg-white p-2 mb-3 file:mr-3 file:py-1.5 file:px-3 file:rounded file:border-0 file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+
+                                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded py-2 text-sm font-medium transition-colors">
                                         <i class="fa-solid fa-file-arrow-up me-1"></i> ส่งงาน
                                     </button>
-                                </div>
+                                </form>
                             <?php endforeach; ?>
                         </div>
                     <?php else: ?>
@@ -248,8 +388,10 @@ if ($studentProfile) {
                             <tr>
                                 <th class="px-5 py-3 font-medium">วิชา</th>
                                 <th class="px-5 py-3 font-medium">ชื่องาน</th>
+                                <th class="px-5 py-3 font-medium">ไฟล์</th>
                                 <th class="px-5 py-3 font-medium text-center">เวลาที่ส่ง</th>
-                                <th class="px-5 py-3 font-medium text-center">คะแนนที่ได้</th>
+                                <th class="px-5 py-3 font-medium text-center">สถานะ</th>
+                                <th class="px-5 py-3 font-medium">Feedback</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
@@ -263,26 +405,45 @@ if ($studentProfile) {
                                         <td class="px-5 py-4">
                                             <p class="text-gray-900"><?php echo htmlspecialchars($task['title']); ?></p>
                                         </td>
+                                        <td class="px-5 py-4">
+                                            <?php if (!empty($task['filePath'])): ?>
+                                                <a href="../../<?php echo htmlspecialchars($task['filePath']); ?>" target="_blank" class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium text-xs">
+                                                    <i class="fa-solid fa-file-pdf"></i>
+                                                    <?php echo htmlspecialchars($task['fileName'] ?? 'ไฟล์แนบ'); ?>
+                                                </a>
+                                            <?php else: ?>
+                                                <span class="text-xs text-gray-400">-</span>
+                                            <?php endif; ?>
+                                        </td>
                                         <td class="px-5 py-4 text-center">
                                             <p class="text-xs text-gray-600"><?php echo date('d/m/Y', strtotime($task['submittedAt'])); ?></p>
                                             <p class="text-[10px] text-gray-400"><?php echo date('H:i', strtotime($task['submittedAt'])); ?> น.</p>
                                         </td>
                                         <td class="px-5 py-4 text-center">
-                                            <?php if ($task['score'] !== null): ?>
-                                                <span class="inline-flex items-center justify-center bg-emerald-100 text-emerald-800 font-bold px-3 py-1 rounded text-sm border border-emerald-200">
-                                                    <?php echo $task['score']; ?> / <?php echo $task['maxScore']; ?>
-                                                </span>
+                                            <?php $statusLabel = homeworkStatusLabel($task); ?>
+                                            <div class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border <?php echo $statusLabel['class']; ?>">
+                                                <?php echo htmlspecialchars($statusLabel['text']); ?>
+                                            </div>
+                                            <p class="text-xs text-gray-500 mt-1">
+                                                <?php if ($task['score'] !== null): ?>
+                                                    <?php echo htmlspecialchars((string)$task['score']); ?> / <?php echo htmlspecialchars((string)$task['maxScore']); ?>
+                                                <?php else: ?>
+                                                    รอการตรวจ
+                                                <?php endif; ?>
+                                            </p>
+                                        </td>
+                                        <td class="px-5 py-4">
+                                            <?php if (!empty($task['feedback'])): ?>
+                                                <p class="text-sm text-gray-700 whitespace-pre-wrap"><?php echo htmlspecialchars($task['feedback']); ?></p>
                                             <?php else: ?>
-                                                <span class="inline-flex items-center justify-center bg-gray-100 text-gray-600 font-medium px-2 py-1 rounded text-xs border border-gray-200">
-                                                    รอตรวจ
-                                                </span>
+                                                <span class="text-xs text-gray-400">ยังไม่มี feedback</span>
                                             <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="4" class="text-center py-8 text-gray-500">
+                                    <td colspan="6" class="text-center py-8 text-gray-500">
                                         ยังไม่มีประวัติการส่งงาน
                                     </td>
                                 </tr>

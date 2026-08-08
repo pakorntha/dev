@@ -72,20 +72,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $assignmentId = $_POST['assignment_id'];
     $classroomId = $_POST['classroom_id'];
     $scores = $_POST['scores'] ?? [];
+    $feedbacks = $_POST['feedbacks'] ?? [];
 
     foreach ($scores as $studentProfileId => $scoreVal) {
-        if ($scoreVal === '' || $scoreVal === null) continue;
-        
-        $score = floatval($scoreVal);
+        $feedback = trim($feedbacks[$studentProfileId] ?? '');
+        if ($scoreVal === '' || $scoreVal === null) {
+            if ($feedback === '') {
+                continue;
+            }
+            $score = null;
+        } else {
+            $score = floatval($scoreVal);
+        }
         $chk = dd_q("SELECT id FROM submission WHERE assignmentId = ? AND studentId = ?", [$assignmentId, $studentProfileId]);
         
         if ($chk->rowCount() > 0) {
             $sub = $chk->fetch(PDO::FETCH_ASSOC);
-            dd_q("UPDATE submission SET score = ?, updatedAt = NOW(3) WHERE id = ?", [$score, $sub['id']]);
+            dd_q("UPDATE submission SET score = ?, feedback = ?, status = 'reviewed', reviewedAt = NOW(3), updatedAt = NOW(3) WHERE id = ?", [$score, $feedback !== '' ? $feedback : null, $sub['id']]);
         } else {
             $subId = 'SUB_' . uniqid();
-            dd_q("INSERT INTO submission (id, assignmentId, studentId, score, updatedAt) VALUES (?, ?, ?, ?, NOW(3))", 
-                [$subId, $assignmentId, $studentProfileId, $score]);
+            dd_q("INSERT INTO submission (id, assignmentId, studentId, score, feedback, status, reviewedAt, updatedAt) VALUES (?, ?, ?, ?, ?, 'reviewed', NOW(3), NOW(3))", 
+                [$subId, $assignmentId, $studentProfileId, $score, $feedback !== '' ? $feedback : null]);
         }
     }
 
@@ -250,7 +257,7 @@ $get_classroom_id = $_GET['classroom_id'] ?? null;
                     $clsInfo = $stmt_cls->fetch(PDO::FETCH_ASSOC);
 
                     $stmt_students = dd_q("
-                        SELECT sp.id AS studentProfileId, u.username, u.prefix, u.firstName, u.lastName, sub.score, sub.submittedAt
+                        SELECT sp.id AS studentProfileId, u.username, u.prefix, u.firstName, u.lastName, sub.score, sub.submittedAt, sub.status, sub.feedback, sub.filePath, sub.fileName
                         FROM studentprofile sp
                         INNER JOIN user u ON sp.userId = u.id
                         LEFT JOIN submission sub ON sub.studentId = sp.id AND sub.assignmentId = ?
@@ -298,6 +305,7 @@ $get_classroom_id = $_GET['classroom_id'] ?? null;
                                         <th class="px-4 py-3 font-medium">รหัสนักเรียน</th>
                                         <th class="px-4 py-3 font-medium">ชื่อ-นามสกุล</th>
                                         <th class="px-4 py-3 font-medium text-center">คะแนนที่ได้ (เต็ม <?php echo $asnInfo['maxScore']; ?>)</th>
+                                        <th class="px-4 py-3 font-medium">Feedback</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-100">
@@ -315,11 +323,20 @@ $get_classroom_id = $_GET['classroom_id'] ?? null;
                                                            value="<?php echo $std['score'] !== null ? htmlspecialchars($std['score']) : ''; ?>" 
                                                            class="w-24 border border-gray-300 rounded px-2 py-1 text-center text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" placeholder="กรอก">
                                                 </td>
+                                                <td class="px-4 py-3 align-top">
+                                                    <textarea name="feedbacks[<?php echo $std['studentProfileId']; ?>]" rows="2" class="w-full border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" placeholder="เขียน feedback..."><?php echo htmlspecialchars($std['feedback'] ?? ''); ?></textarea>
+                                                    <?php if (!empty($std['filePath'])): ?>
+                                                        <div class="mt-2 text-xs text-blue-600">
+                                                            <i class="fa-solid fa-file-pdf me-1"></i>
+                                                            <a href="../../<?php echo htmlspecialchars($std['filePath']); ?>" target="_blank" class="hover:text-blue-800">ไฟล์ส่ง: <?php echo htmlspecialchars($std['fileName'] ?? 'PDF'); ?></a>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                </td>
                                             </tr>
                                         <?php endforeach; ?>
                                     <?php else: ?>
                                         <tr>
-                                            <td colspan="4" class="text-center text-gray-400 py-6">ไม่มีนักเรียนในห้องเรียนนี้</td>
+                                            <td colspan="5" class="text-center text-gray-400 py-6">ไม่มีนักเรียนในห้องเรียนนี้</td>
                                         </tr>
                                     <?php endif; ?>
                                 </tbody>
