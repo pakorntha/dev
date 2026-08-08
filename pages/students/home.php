@@ -122,7 +122,7 @@ if ($stmt->rowCount() === 1) {
                     <p class="text-xs text-gray-400 truncate">นักเรียนชั้น ม.6</p>
                 </div>
                 <!-- ลิงก์ไปไฟล์ออกจากระบบ -->
-                <a href="..\..\system\logout.php" class="text-gray-400 hover:text-red-400 transition-colors" title="ออกจากระบบ">
+                <a href="../../system/logout.php" class="text-gray-400 hover:text-red-400 transition-colors" title="ออกจากระบบ">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
                 </a>
             </div>
