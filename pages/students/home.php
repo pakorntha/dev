@@ -138,7 +138,7 @@ if ($stmt->rowCount() === 1) {
                         </a>
                     </li>
                     <li>
-                        <a href="grade.php" class="flex items-center gap-3 px-3 py-2.5 hover:bg-gray-800 hover:text-white rounded-lg transition-colors">
+                        <a href="score.php" class="flex items-center gap-3 px-3 py-2.5 hover:bg-gray-800 hover:text-white rounded-lg transition-colors">
                             <i class="fa-solid fa-chart-line w-5 text-center"></i>
                             ผลการเรียน
                         </a>
