@@ -1,8 +1,7 @@
 <?php
 session_start();
 error_reporting(0); 
-
-require_once("system/a_func.php"); 
+require_once("../system/a_func.php");   
 
 if (!isset($_SESSION['id'])) {
     header("Location: pages/login.php");
@@ -20,7 +19,7 @@ if ($stmt->rowCount() == 1) {
         exit();
     } 
     elseif ($user_role == "0") {
-        header("Location: home.php");
+        header("Location: ./pages/students/home.php");
         exit();
     } 
     else {
