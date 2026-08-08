@@ -18,6 +18,7 @@ try {
 /**
  * ฟังก์ชัน dd_q() สำหรับ Query ฐานข้อมูลแบบปลอดภัย (Prepared Statement)
  * @param string $sql คำสั่ง SQL เช่น "SELECT * FROM users WHERE id = ?"
+ * 
  * @param array $params ตัวแปรที่ต้องการใส่ใน ? เช่น [$_SESSION['id']]
  */
 function dd_q($sql, $params = []) {

@@ -14,7 +14,7 @@ if (!isset($_SESSION['id'])) {
 require_once("system/a_func.php"); 
 
 // 3. แล้วค่อยดึงข้อมูลมาเช็ค Rank
-$stmt = dd_q("SELECT * FROM users WHERE id = ? LIMIT 1", [$_SESSION['id']]);
+$stmt = dd_q("SELECT * FROM user WHERE id = ? LIMIT 1", [$_SESSION['id']]);
 
 if ($stmt->rowCount() == 1) {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);

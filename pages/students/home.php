@@ -2,15 +2,16 @@
 session_start();
 require_once("../../system/a_func.php");
 
+
 // if (!isset($_SESSION['id'])) {
 //     header("Location: login.php");
 //     exit();
 // }
 
-$stmt = dd_q("SELECT * FROM users WHERE id = ? LIMIT 1", [$_SESSION['id']]);
+$stmt = dd_q("SELECT * FROM user WHERE id = ? LIMIT 1", [$_SESSION['id']]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if ($user['rank'] == "1") {
+if ($user['rank'] == "student") {
     header("Location: admin_dashboard.php");
     exit();
 }

@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error_msg = "กรุณากรอกชื่อผู้ใช้และรหัสผ่านให้ครบถ้วน";
     } else {
         // ดึงข้อมูลผู้ใช้งานจากฐานข้อมูล
-        $stmt = dd_q("SELECT * FROM users WHERE username = ? LIMIT 1", [$username]);
+        $stmt = dd_q("SELECT * FROM user WHERE username = ? LIMIT 1", [$username]);
 
         if ($stmt->rowCount() === 1) {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
