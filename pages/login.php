@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error_msg = "กรุณากรอกชื่อผู้ใช้และรหัสผ่านให้ครบถ้วน";
     } else {
         // ดึงข้อมูลผู้ใช้งานจากฐานข้อมูล
-        $stmt = dd_q("SELECT * FROM users WHERE username = ? LIMIT 1", [$username]);
+        $stmt = dd_q("SELECT * FROM user WHERE username = ? LIMIT 1", [$username]);
 
         if ($stmt->rowCount() === 1) {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -81,13 +81,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <!-- Form -->
-        <form class="space-y-5">
+        <form method="POST" class="space-y-5">
             
             <!-- Role Selection -->
             <div>
                 <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2">
                     Role
-                </label>
+                </label> 
                 <div class="grid grid-cols-3 gap-3">
                     <!-- Student (Active) -->
                     <button type="button" class="flex flex-col items-center gap-1.5 py-3 rounded-lg border transition-colors text-xs font-medium border-blue-600 bg-blue-50 text-blue-700 ring-1 ring-blue-600">
@@ -114,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </label>
                 <div class="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-2.5 bg-white focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 transition-shadow">
                     <i class="fa-solid fa-user text-gray-400"></i>
-                    <input type="text" placeholder="กรอกรหัสประจำตัว" required
+                    <input type="text" name="username" placeholder="กรอกรหัสประจำตัว" required
                         class="flex-1 bg-transparent outline-none text-sm placeholder:text-gray-400" autocomplete="username">
                 </div>
             </div>
@@ -126,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </label>
                 <div class="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-2.5 bg-white focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 transition-shadow">
                     <i class="fa-solid fa-lock text-gray-400"></i>
-                    <input type="password" placeholder="กรอกรหัสผ่าน" required
+                    <input type="password" name="password" placeholder="กรอกรหัสผ่าน" required
                         class="flex-1 bg-transparent outline-none text-sm placeholder:text-gray-400" autocomplete="current-password">
                     <button type="button" class="text-gray-400 hover:text-gray-600 transition-colors">
                         <i class="fa-solid fa-eye-slash"></i>
@@ -146,7 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <!-- Submit Button -->
-            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg flex items-center justify-center gap-2 transition-colors">
+            <button action="" type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg flex items-center justify-center gap-2 transition-colors">
                 เข้าสู่ระบบ
                 <i class="fa-solid fa-arrow-right"></i>
             </button>
