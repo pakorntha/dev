@@ -25,6 +25,10 @@ if ($stmt->rowCount() == 1) {
         header("Location: admin_dashboard.php");
         exit();
     } 
+    elseif ($user_role === 'director') {
+        header("Location: pages/director/home.php");
+        exit();
+    } 
     elseif ($user_role === 'student') {
         header("Location: pages/students/home.php");
         exit();
