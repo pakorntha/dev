@@ -106,6 +106,24 @@ CREATE TABLE `attendance` (
   `updatedAt` datetime(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
+--
+-- Table structure for table `teacher_worklog`
+--
+
+CREATE TABLE `teacher_worklog` (
+  `id` varchar(191) NOT NULL,
+  `userId` int NOT NULL,
+  `workDate` date NOT NULL,
+  `checkInTime` time DEFAULT NULL,
+  `checkOutTime` time DEFAULT NULL,
+  `checkInMethod` varchar(30) DEFAULT NULL,
+  `status` enum('present','late','leave','sick','absent','remote','unknown') NOT NULL DEFAULT 'unknown',
+  `note` text,
+  `markedBy` int DEFAULT NULL,
+  `createdAt` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `updatedAt` datetime(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
 -- --------------------------------------------------------
 
 --
@@ -194,6 +212,16 @@ ALTER TABLE `attendance`
   ADD KEY `Attendance_markedBy_fkey` (`markedBy`);
 
 --
+-- Indexes for table `teacher_worklog`
+--
+ALTER TABLE `teacher_worklog`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `TeacherWorklog_userId_workDate_key` (`userId`,`workDate`),
+  ADD KEY `TeacherWorklog_workDate_key` (`workDate`),
+  ADD KEY `TeacherWorklog_markedBy_fkey` (`markedBy`),
+  ADD KEY `TeacherWorklog_userId_fkey` (`userId`);
+
+--
 -- Indexes for table `submission`
 --
 ALTER TABLE `submission`
@@ -261,6 +289,13 @@ ALTER TABLE `attendance`
   ADD CONSTRAINT `Attendance_studentProfileId_fkey` FOREIGN KEY (`studentProfileId`) REFERENCES `studentprofile` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `Attendance_classroomId_fkey` FOREIGN KEY (`classroomId`) REFERENCES `classroom` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `Attendance_markedBy_fkey` FOREIGN KEY (`markedBy`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `teacher_worklog`
+--
+ALTER TABLE `teacher_worklog`
+  ADD CONSTRAINT `TeacherWorklog_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `TeacherWorklog_markedBy_fkey` FOREIGN KEY (`markedBy`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `submission`

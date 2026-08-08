@@ -14,6 +14,7 @@ if (!function_exists('sis4_teacher_sidebar_render')) {
         $currentPage = basename($_SERVER['PHP_SELF'] ?? '');
         $dashboardActive = $currentPage === 'home.php';
         $homeworkActive = $currentPage === 'homework.php';
+        $checkingActive = $currentPage === 'checking.php';
         $studentListActive = $currentPage === 'student_list.php';
         $attendanceActive = $currentPage === 'atten.php';
         $lessionPlanActive = $currentPage === 'lession_plan.php';
@@ -72,9 +73,12 @@ if (!function_exists('sis4_teacher_sidebar_render')) {
                 <div>
                     <p class="px-3 text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-2">งานบุคคล</p>
                     <ul class="space-y-1">
-                        <li><a href="#"
-                                class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i
-                                    class="fa-solid fa-user-clock w-5 text-center"></i> ลงเวลาปฏิบัติงาน</a></li>
+                        <li>
+                            <a href="checking.php" class="<?= sis4_teacher_sidebar_link_class($checkingActive) ?>">
+                                <i class="fa-solid fa-user-clock w-5 text-center"></i>
+                                ลงเวลาปฏิบัติงาน
+                            </a>
+                        </li>
                         <li><a href="#"
                                 class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i
                                     class="fa-regular fa-calendar-minus w-5 text-center"></i> การลา</a></li>
