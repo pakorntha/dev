@@ -15,7 +15,7 @@ $error_msg = "";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username'] ?? '');
     $password = trim($_POST['password'] ?? '');
-    $role = trim($_POST['role'] ?? 'student'); // รับค่า Role ที่ผู้ใช้เลือกมาด้วย
+    $role = trim($_POST['role'] ?? 'student'); // รับค่า Role
 
     if (empty($username) || empty($password)) {
         $error_msg = "กรุณากรอกชื่อผู้ใช้และรหัสผ่านให้ครบถ้วน";
@@ -29,10 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // เช็ครหัสผ่าน
             if (password_verify($password, $user['password']) || $password === $user['password']) {
                 
-                // เช็คว่า Role ที่เลือก ตรงกับ Rank ในฐานข้อมูลหรือไม่ (ถ้าคุณมีระบบนี้)
-                // สมมติว่า rank 0 = student, 1 = admin, 2 = teacher
-                // ถ้ายังไม่ซีเรียสเรื่องนี้ สามารถข้ามไปตั้ง Session ได้เลย
-                
+                // ล็อกอินสำเร็จ
                 $_SESSION['id'] = $user['id'];
                 header("Location: ../index.php");
                 exit();
@@ -51,96 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
-    <title>เข้าสู่ระบบ</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
-        body {
-            background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        .card-login {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            width: 100%;
-            max-width: 400px;
-            background: #ffffff;
-        }
-        .login-header {
-            text-align: center;
-            padding: 30px 20px 10px;
-        }
-        .login-header i {
-            font-size: 3rem;
-            color: #0d6efd;
-        }
-        .form-control {
-            border-radius: 10px;
-            padding: 12px;
-        }
-        .btn-login {
-            border-radius: 10px;
-            padding: 12px;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
-
-<div class="container d-flex justify-content-center">
-    <div class="card card-login p-4">
-        <div class="login-header">
-            <i class="fas fa-user-circle mb-2"></i>
-            <h4 class="fw-bold">เข้าสู่ระบบ</h4>
-            <p class="text-muted small">ระบบจัดการข้อมูลนักเรียน</p>
-        </div>
-
-        <form action="" method="POST">
-            <div class="mb-3">
-                <label for="username" class="form-label text-muted small fw-bold">ชื่อผู้ใช้ (Username)</label>
-                <div class="input-group">
-                    <span class="input-group-text bg-light"><i class="fas fa-user"></i></span>
-                    <input type="text" class="form-control" id="username" name="username" placeholder="กรอกชื่อผู้ใช้" required autocomplete="off">
-                </div>
-            </div>
-
-            <div class="mb-4">
-                <label for="password" class="form-label text-muted small fw-bold">รหัสผ่าน (Password)</label>
-                <div class="input-group">
-                    <span class="input-group-text bg-light"><i class="fas fa-lock"></i></span>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="กรอกรหัสผ่าน" required>
-                </div>
-            </div>
-
-            <button type="submit" class="btn btn-primary w-100 btn-login">
-                <i class="fas fa-sign-in-alt me-1"></i> เข้าสู่ระบบ
-            </button>
-        </form>
-    </div>
-</div>
-
-<!-- แจ้งเตือนข้อผิดพลาดเมื่อล็อกอินไม่สำเร็จด้วย SweetAlert2 -->
-<?php if (!empty($error_msg)): ?>
-<script>
-    Swal.fire({
-        icon: 'error',
-        title: 'เข้าสู่ระบบไม่สำเร็จ',
-        text: '<?php echo $error_msg; ?>',
-        confirmButtonColor: '#0d6efd'
-    });
-</script>
-<?php endif; ?>
-=======
     <title>Login - SiS4 SCHOOL</title>
     <!-- เรียกใช้งาน Tailwind CSS ผ่าน CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -174,17 +81,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     Role
                 </label>
                 <div class="grid grid-cols-3 gap-3">
-                    <!-- Student (ค่าเริ่มต้นเป็น Active) -->
                     <button type="button" onclick="changeRole('student', this)" class="role-btn flex flex-col items-center gap-1.5 py-3 rounded-lg border transition-colors text-xs font-medium border-blue-600 bg-blue-50 text-blue-700 ring-1 ring-blue-600">
                         <i class="fa-solid fa-graduation-cap text-lg"></i>
                         นักเรียน
                     </button>
-                    <!-- Teacher -->
                     <button type="button" onclick="changeRole('teacher', this)" class="role-btn flex flex-col items-center gap-1.5 py-3 rounded-lg border transition-colors text-xs font-medium border-gray-200 bg-white text-gray-600 hover:bg-gray-50 hover:border-gray-300">
                         <i class="fa-solid fa-users text-lg"></i>
                         ครู / อาจารย์
                     </button>
-                    <!-- Admin -->
                     <button type="button" onclick="changeRole('admin', this)" class="role-btn flex flex-col items-center gap-1.5 py-3 rounded-lg border transition-colors text-xs font-medium border-gray-200 bg-white text-gray-600 hover:bg-gray-50 hover:border-gray-300">
                         <i class="fa-solid fa-shield-halved text-lg"></i>
                         ผู้ดูแลระบบ
@@ -199,6 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </label>
                 <div class="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-2.5 bg-white focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 transition-shadow">
                     <i class="fa-solid fa-user text-gray-400"></i>
+                    <!-- ต้องมี name="username" ไม่งั้น PHP จะไม่ได้รับค่า -->
                     <input type="text" id="username" name="username" placeholder="กรอกรหัสประจำตัว" required
                         class="flex-1 bg-transparent outline-none text-sm placeholder:text-gray-400" autocomplete="username">
                 </div>
@@ -211,6 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </label>
                 <div class="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-2.5 bg-white focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 transition-shadow">
                     <i class="fa-solid fa-lock text-gray-400"></i>
+                    <!-- ต้องมี name="password" ไม่งั้น PHP จะไม่ได้รับค่า -->
                     <input type="password" id="password" name="password" placeholder="กรอกรหัสผ่าน" required
                         class="flex-1 bg-transparent outline-none text-sm placeholder:text-gray-400" autocomplete="current-password">
                     <button type="button" class="text-gray-400 hover:text-gray-600 transition-colors" onclick="togglePassword()">
@@ -231,6 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <!-- Submit Button -->
+            <!-- เอา action="" ออกจากปุ่ม เพราะมันทำให้ปุ่มพัง -->
             <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg flex items-center justify-center gap-2 transition-colors">
                 เข้าสู่ระบบ
                 <i class="fa-solid fa-arrow-right"></i>
@@ -248,7 +155,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <!-- Script สำหรับเปลี่ยน Role และดูรหัสผ่าน -->
     <script>
-        // ฟังก์ชันเปลี่ยน Role
         function changeRole(roleValue, clickedBtn) {
             document.getElementById('selectedRole').value = roleValue;
 
@@ -265,7 +171,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             clickedBtn.classList.add(...activeClasses);
         }
 
-        // ฟังก์ชันเปิด/ปิดตาดูรหัสผ่าน
         function togglePassword() {
             const pwInput = document.getElementById('password');
             const eyeIcon = document.getElementById('eye-icon');
