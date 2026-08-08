@@ -2,6 +2,7 @@
 session_start();
 // ถอยหลังไปหาไฟล์เชื่อมต่อฐานข้อมูลให้ถูกต้อง (ปรับ path ตามโครงสร้างจริงของคุณ)
 require_once("../../system/a_func.php");
+require_once("../../system/teacher_sidebar.php");
 
 // ตรวจสอบว่ามีการล็อกอินหรือไม่
 if (!isset($_SESSION['id'])) {
@@ -52,86 +53,7 @@ if ($stmt->rowCount() === 1) {
 </head>
 <body class="bg-gray-100 text-gray-800 h-screen overflow-hidden flex">
 
-    <!-- ==================== SIDEBAR (สำหรับครู) ==================== -->
-    <aside class="w-64 bg-gray-900 text-gray-300 flex flex-col h-full flex-shrink-0">
-        <!-- Logo -->
-        <div class="h-16 flex items-center px-6 border-b border-gray-800">
-            <div class="w-8 h-8 bg-blue-600 rounded flex items-center justify-center text-white mr-3">
-                <i class="fa-solid fa-school"></i>
-            </div>
-            <div>
-                <h1 class="text-white font-bold text-sm leading-tight">SiS4 SCHOOL</h1>
-                <p class="text-xs text-gray-400">ระบบสารบรรณอัจฉริยะ</p>
-            </div>
-        </div>
-
-        <!-- Navigation Menu -->
-        <nav class="flex-1 overflow-y-auto no-scrollbar px-3 py-4 space-y-6 text-sm">
-            
-            <!-- เมนูหลัก -->
-            <div>
-                <a href="home.php" class="flex items-center gap-3 px-3 py-2.5 bg-blue-600 text-white rounded">
-                    <i class="fa-solid fa-border-all w-5 text-center"></i>
-                    แดชบอร์ด
-                </a>
-            </div>
-              <div>
-                <p class="px-3 text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-2">งานรายวิชาที่รับผิดชอบ</p>
-                <ul class="space-y-1">
-                    <li><a href="./homework.php" class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i class="fa-solid fa-inbox w-5 text-center"></i> มอบหมายงาน / การบ้าน</a></li>
-
-                </ul>
-            </div>              
-            <!-- งานสารบรรณ -->
-            <div>
-                <p class="px-3 text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-2">งานสารบรรณ</p>
-                <ul class="space-y-1">
-                    <li><a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i class="fa-solid fa-inbox w-5 text-center"></i> หนังสือรับ</a></li>
-                    <li><a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i class="fa-regular fa-note-sticky w-5 text-center"></i> บันทึกภายใน</a></li>
-                    <li><a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i class="fa-solid fa-share-nodes w-5 text-center"></i> หนังสือเวียน</a></li>
-                    <li><a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i class="fa-solid fa-list-check w-5 text-center"></i> งานที่มอบหมาย</a></li>
-                </ul>
-            </div>
-
-            <!-- งานบุคคล -->
-            <div>
-                <p class="px-3 text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-2">งานบุคคล</p>
-                <ul class="space-y-1">
-                    <li><a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i class="fa-solid fa-user-clock w-5 text-center"></i> ลงเวลาปฏิบัติงาน</a></li>
-                    <li><a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i class="fa-regular fa-calendar-minus w-5 text-center"></i> การลา</a></li>
-                    <li><a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i class="fa-solid fa-plane w-5 text-center"></i> ไปราชการและอบรม</a></li>
-                </ul>
-            </div>
-
-            <!-- งานวิชาการ -->
-            <div>
-                <p class="px-3 text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-2">งานวิชาการ</p>
-                <ul class="space-y-1">
-                    <li><a href="./student_list.php" class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i class="fa-solid fa-users w-5 text-center"></i> นักเรียนและห้องเรียน</a></li>
-                    <li><a href="atten.php" class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i class="fa-solid fa-chalkboard-user w-5 text-center"></i> การมาเรียนนักเรียน</a></li>
-                    <li><a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i class="fa-solid fa-book-open w-5 text-center"></i> แผนการสอน</a></li>
-                    <li><a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i class="fa-solid fa-eye w-5 text-center"></i> นิเทศการสอน</a></li>
-                    <li><a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i class="fa-solid fa-shield-halved w-5 text-center"></i> ประกันคุณภาพภายใน</a></li>
-                </ul>
-            </div>
-        </nav>
-
-        <!-- User Profile Bottom -->
-        <div class="p-4 border-t border-gray-800">
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded bg-blue-600 flex items-center justify-center text-white font-bold text-sm">
-                    <?= htmlspecialchars($initial) ?>
-                </div>
-                <div class="flex-1 overflow-hidden">
-                    <p class="text-sm text-white font-medium truncate"><?= htmlspecialchars($fullName) ?></p>
-                    <p class="text-xs text-gray-400 truncate">ครูผู้สอน</p>
-                </div>
-                <a href="../../system/logout.php" class="text-gray-400 hover:text-red-400 transition-colors" title="ออกจากระบบ">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                </a>
-            </div>
-        </div>
-    </aside>
+    <?php sis4_teacher_sidebar_render($fullName, $initial); ?>
 
     <!-- ==================== MAIN CONTENT ==================== -->
     <div class="flex-1 flex flex-col min-w-0">
