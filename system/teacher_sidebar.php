@@ -17,6 +17,7 @@ if (!function_exists('sis4_teacher_sidebar_render')) {
         $studentListActive = $currentPage === 'student_list.php';
         $attendanceActive = $currentPage === 'atten.php';
         $lessionPlanActive = $currentPage === 'lession_plan.php';
+        $supervisionActive = $currentPage === 'supervision.php';
         $asideClass = trim('w-64 bg-gray-900 text-gray-300 flex flex-col h-full flex-shrink-0 ' . $extraAsideClass);
         ?>
         <aside class="<?= htmlspecialchars($asideClass, ENT_QUOTES, 'UTF-8') ?>">
@@ -99,9 +100,9 @@ if (!function_exists('sis4_teacher_sidebar_render')) {
                                 การมาเรียนนักเรียน
                             </a>
                         </li>
-                        <li><a href="lession_plan.php" class=" <?= sis4_teacher_sidebar_link_class($lessionPlanActive) ?>"><i class="fa-solid fa-book-open w-5 text-center"></i> แผนการสอน</a></li>
-                        <li><a href="#"
-                                class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i
+                        <li><a href="lession_plan.php" class=" <?= sis4_teacher_sidebar_link_class($lessionPlanActive) ?>"><i
+                                    class="fa-solid fa-book-open w-5 text-center"></i> แผนการสอน</a></li>
+                        <li><a href="supervision.php" class=" <?= sis4_teacher_sidebar_link_class($supervisionActive) ?>"><i
                                     class="fa-solid fa-eye w-5 text-center"></i> นิเทศการสอน</a></li>
                         <li><a href="#"
                                 class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i
@@ -117,7 +118,8 @@ if (!function_exists('sis4_teacher_sidebar_render')) {
                     </div>
                     <div class="flex-1 overflow-hidden">
                         <p class="text-sm text-white font-medium truncate">
-                            <?= htmlspecialchars($displayName, ENT_QUOTES, 'UTF-8') ?></p>
+                            <?= htmlspecialchars($displayName, ENT_QUOTES, 'UTF-8') ?>
+                        </p>
                         <p class="text-xs text-gray-400 truncate"><?= htmlspecialchars($roleText, ENT_QUOTES, 'UTF-8') ?></p>
                     </div>
                     <a href="<?= htmlspecialchars($logoutPath, ENT_QUOTES, 'UTF-8') ?>"
