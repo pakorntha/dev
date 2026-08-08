@@ -120,7 +120,7 @@ if (!empty($selected_classroom_id)) {
                 
                 <!-- เลือกระดับชั้น (ซ่อนตอนพิมพ์) -->
                 <div class="lg:col-span-1 flex flex-col gap-6 no-print">
-                    <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+                    <div class="bg-white border border-gray-200 rounded shadow-sm overflow-hidden">
                         <div class="px-5 py-4 border-b border-gray-100 bg-gray-50/80">
                             <h3 class="font-bold text-gray-900 text-sm flex items-center gap-2">
                                 <i class="fa-solid fa-layer-group text-blue-600"></i> เลือกห้องเรียน
@@ -133,7 +133,7 @@ if (!empty($selected_classroom_id)) {
                                         <?php $isActive = ($cls['id'] === $selected_classroom_id); ?>
                                         <li>
                                             <a href="?classroom_id=<?php echo urlencode($cls['id']); ?>" 
-                                               class="flex justify-between items-center px-4 py-3 rounded-lg text-sm transition-all duration-200 <?php echo $isActive ? 'bg-blue-600 text-white shadow-md shadow-blue-200' : 'text-gray-600 hover:bg-blue-50 hover:text-blue-700 border border-transparent'; ?>">
+                                               class="flex justify-between items-center px-4 py-3 rounded    text-sm transition-all duration-200 <?php echo $isActive ? 'bg-blue-600 text-white shadow-md shadow-blue-200' : 'text-gray-600 hover:bg-blue-50 hover:text-blue-700 border border-transparent'; ?>">
                                                 <span class="font-medium">
                                                     <i class="fa-solid fa-door-open <?php echo $isActive ? 'text-blue-200' : 'text-gray-400'; ?> me-2"></i> ห้อง <?php echo htmlspecialchars($cls['name']); ?>
                                                 </span>
@@ -159,12 +159,12 @@ if (!empty($selected_classroom_id)) {
                         <p class="text-sm text-gray-600 mt-1">ภาคเรียนที่ 1 ปีการศึกษา 2569</p>
                     </div>
 
-                    <div class="bg-white border border-gray-200 rounded-xl shadow-sm flex flex-col h-full print-card overflow-hidden">
+                    <div class="bg-white border border-gray-200 shadow-sm flex flex-col h-full print-card overflow-hidden">
                         
                         <!-- Header ของ Card -->
                         <div class="px-6 py-5 border-b border-gray-100 bg-white flex flex-wrap justify-between items-center gap-4 no-print">
                             <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg shadow-sm border border-indigo-100">
+                                <div class="w-10 h-10 bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg shadow-sm border border-indigo-100">
                                     <i class="fa-solid fa-chalkboard-user"></i>
                                 </div>
                                 <div>
@@ -189,7 +189,7 @@ if (!empty($selected_classroom_id)) {
                                 <thead class="bg-gray-50/80 text-gray-500 border-b border-gray-200 text-xs uppercase tracking-wider">
                                     <tr>
                                         <th class="px-6 py-4 font-semibold w-16 text-center">เลขที่</th>
-                                        <th class="px-6 py-4 font-semibold">รหัสนักเรียน</th>
+                                        <!-- <th class="px-6 py-4 font-semibold">รหัสนักเรียน</th> -->
                                         <th class="px-6 py-4 font-semibold">ชื่อ - นามสกุล</th>
                                         <th class="px-6 py-4 font-semibold text-center no-print">เกรดเฉลี่ย (GPA)</th>
                                         <!-- ช่องว่างสำหรับให้ครูขีดเขียนตอนพิมพ์ -->
@@ -208,15 +208,15 @@ if (!empty($selected_classroom_id)) {
                                             ?>
                                             <tr class="hover:bg-blue-50/50 transition-colors group">
                                                 <td class="px-6 py-3 text-center text-gray-500 font-medium"><?php echo $index + 1; ?></td>
-                                                <td class="px-6 py-3">
+                                                <!-- <td class="px-6 py-3">
                                                     <span class="font-mono text-xs text-gray-600 bg-gray-100/80 px-2 py-1 rounded border border-gray-200 group-hover:bg-white group-hover:border-blue-200 transition-colors print:border-none print:bg-transparent print:p-0">
-                                                        <?php echo htmlspecialchars($std['username']); ?>
+                                                        
                                                     </span>
-                                                </td>
+                                                </td> -->
                                                 <td class="px-6 py-3">
                                                     <div class="flex items-center gap-3">
                                                         <!-- Avatar (ซ่อนตอนพิมพ์) -->
-                                                        <div class="w-8 h-8 rounded-full <?php echo $avatarColor; ?> flex items-center justify-center text-xs font-bold shadow-sm no-print">
+                                                        <div class="w-8 h-8 rounded <?php echo $avatarColor; ?> flex items-center justify-center text-xs font-bold shadow-sm no-print">
                                                             <?php echo htmlspecialchars($stdInitial); ?>
                                                         </div>
                                                         <span class="font-medium text-gray-900">
