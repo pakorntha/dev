@@ -50,85 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
-    <title>เข้าสู่ระบบ</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
-        body {
-            background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        .card-login {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            width: 100%;
-            max-width: 400px;
-            background: #ffffff;
-        }
-        .login-header {
-            text-align: center;
-            padding: 30px 20px 10px;
-        }
-        .login-header i {
-            font-size: 3rem;
-            color: #0d6efd;
-        }
-        .form-control {
-            border-radius: 10px;
-            padding: 12px;
-        }
-        .btn-login {
-            border-radius: 10px;
-            padding: 12px;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
 
-<div class="container d-flex justify-content-center">
-    <div class="card card-login p-4">
-        <div class="login-header">
-            <i class="fas fa-user-circle mb-2"></i>
-            <h4 class="fw-bold">เข้าสู่ระบบ</h4>
-            <p class="text-muted small">ระบบจัดการข้อมูลนักเรียน</p>
-        </div>
-
-        <form action="" method="POST">
-            <div class="mb-3">
-                <label for="username" class="form-label text-muted small fw-bold">ชื่อผู้ใช้ (Username)</label>
-                <div class="input-group">
-                    <span class="input-group-text bg-light"><i class="fas fa-user"></i></span>
-                    <input type="text" class="form-control" id="username" name="username" placeholder="กรอกชื่อผู้ใช้" required autocomplete="off">
-                </div>
-            </div>
-
-            <div class="mb-4">
-                <label for="password" class="form-label text-muted small fw-bold">รหัสผ่าน (Password)</label>
-                <div class="input-group">
-                    <span class="input-group-text bg-light"><i class="fas fa-lock"></i></span>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="กรอกรหัสผ่าน" required>
-                </div>
-            </div>
-
-            <button type="submit" class="btn btn-primary w-100 btn-login">
-                <i class="fas fa-sign-in-alt me-1"></i> เข้าสู่ระบบ
-            </button>
-        </form>
-    </div>
-</div>
-
-<!-- แจ้งเตือนข้อผิดพลาดเมื่อล็อกอินไม่สำเร็จด้วย SweetAlert2 -->
 <?php if (!empty($error_msg)): ?>
 <script>
     Swal.fire({
@@ -139,7 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     });
 </script>
 <?php endif; ?>
-=======
     <title>Login - SiS4 SCHOOL</title>
     <!-- เรียกใช้งาน Tailwind CSS ผ่าน CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -239,7 +160,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </form>
     </div>
->>>>>>> 8e2a17c5af7d382cb1730bd60192dbc9c48270ab
-
 </body>
 </html>
