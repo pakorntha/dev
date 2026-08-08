@@ -147,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="text-center text-sm text-gray-500 pt-4 border-t border-gray-100">
                 ผู้ปกครองลงทะเบียนใหม่? 
                 <a href="/register" class="text-blue-600 hover:text-blue-700 hover:underline font-medium">
-                    คลิกที่นี่
+                    คลิกที่นี่no
                 </a>
             </div>
         </form>
