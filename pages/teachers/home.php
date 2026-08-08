@@ -28,7 +28,7 @@ if ($stmt->rowCount() === 1) {
 } else {
     // ถ้าไม่พบข้อมูลให้บังคับล็อกเอาท์
     session_destroy();
-    header("Location: ../login.php");
+    header("Location: ../../systemlogin.php");
     exit();
 }
 ?>
@@ -120,7 +120,7 @@ if ($stmt->rowCount() === 1) {
                     <p class="text-sm text-white font-medium truncate"><?= htmlspecialchars($fullName) ?></p>
                     <p class="text-xs text-gray-400 truncate">ครูผู้สอน</p>
                 </div>
-                <a href="../../logout.php" class="text-gray-400 hover:text-red-400 transition-colors" title="ออกจากระบบ">
+                <a href="../../system/logout.php" class="text-gray-400 hover:text-red-400 transition-colors" title="ออกจากระบบ">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
                 </a>
             </div>
