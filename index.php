@@ -22,7 +22,7 @@ if ($stmt->rowCount() == 1) {
 
     // 4. ตรวจสอบ Role ตามค่า ENUM ในฐานข้อมูล
     if ($user_role === 'admin') {
-        header("Location: admin_dashboard.php");
+        header("Location: a dmin_dashboard.php");
         exit();
     } 
     elseif ($user_role === 'director') {
