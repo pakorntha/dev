@@ -102,7 +102,7 @@ if ($stmt->rowCount() === 1) {
         </div>
 
         <!-- School Info -->
-        <div class="p-4">
+        <!-- <div class="p-4">
             <div class="bg-gray-800 rounded-xl p-3 flex items-center gap-3 border border-gray-700">
                 <div class="w-10 h-10 bg-gray-700 rounded-lg flex items-center justify-center">
                     <i class="fa-solid fa-building-columns text-gray-400"></i>
@@ -112,7 +112,7 @@ if ($stmt->rowCount() === 1) {
                     <p class="text-gray-400 mt-0.5">ปีการศึกษา 2569</p>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- Navigation Menu -->
         <nav class="flex-1 overflow-y-auto no-scrollbar px-3 py-2 space-y-6">
@@ -270,11 +270,12 @@ if ($stmt->rowCount() === 1) {
                     <div>
                         <h3 class="text-sm font-bold text-gray-900 mb-2">คำแนะนำจากผู้ช่วย AI ของคุณ</h3>
                         <ul class="text-sm text-gray-700 space-y-1.5 list-disc list-inside marker:text-blue-400">
-                            <li>สำหรับการเตรียมตัวสอบเข้าวิศวกรรมระบบควบคุมและเครื่องมือวัด ผลการเรียนวิชา <strong>ฟิสิกส์</strong> และ <strong>คณิตศาสตร์</strong> ของคุณอยู่ในเกณฑ์ดีเยี่ยม ควรทำโจทย์เรื่องกลศาสตร์เพิ่มเติม</li>
+                            <li>สำหรับการเตรียมตัวสอบเข้าวิศวกรรมคอมพิวเตอร์ ผลการเรียนวิชา <strong>ฟิสิกส์</strong> และ <strong>คณิตศาสตร์</strong> ของคุณอยู่ในเกณฑ์ดีเยี่ยม แต่ยังต้องทำโจทย์เรื่องกลศาสตร์เพิ่มเติมครับ</li>
                             <li>คุณมีกำหนดส่งโปรเจกต์วิชาวิทยาศาสตร์ (โครงงานพลาสติกชีวภาพ) ในวันศุกร์นี้ <span class="text-red-500 font-medium">อย่าลืมตรวจสอบความเรียบร้อย</span></li>
                             <li>สถิติการใช้งานระบบชี้ว่าคุณมีการจัดระเบียบข้อมูล (Mind Map) ได้อย่างมีประสิทธิภาพ แนะนำให้ใช้เครื่องมือนี้ในการสรุปเนื้อหาวิชาประวัติศาสตร์สำหรับการสอบปลายภาค</li>
                         </ul>
                     </div>
+                    <!-- ใช้ AI เพื่อสรุปการเรียนยของนักเรียนคนนั้น ๆ เพื่อช่วยให้นักเรียนมสามารถเรียนรู้ได้อย่างมีประสิทธิภาพ -->
                 </div>
             </div>
 

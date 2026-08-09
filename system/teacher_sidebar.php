@@ -16,6 +16,7 @@ if (!function_exists('sis4_teacher_sidebar_render')) {
         $homeworkActive = $currentPage === 'homework.php';
         $checkingActive = $currentPage === 'checking.php';
         $documentsActive = in_array($currentPage, ['incoming.php', 'documents.php'], true);
+        $outGoingActive = $currentPage === 'outgoing.php';
         $studentListActive = $currentPage === 'student_list.php';
         $attendanceActive = $currentPage === 'atten.php';
         $lessionPlanActive = $currentPage === 'lession_plan.php';
@@ -64,6 +65,12 @@ if (!function_exists('sis4_teacher_sidebar_render')) {
                             <a href="incoming.php" class="<?= sis4_teacher_sidebar_link_class($documentsActive) ?>">
                                 <i class="fa-solid fa-inbox w-5 text-center"></i>
                                 หนังสือรับ
+                            </a>
+                        </li>
+                        <li>
+                            <a href="outgoing.php" class="<?= sis4_teacher_sidebar_link_class($outGoingActive) ?>">
+                                <i class="fa-solid fa-paper-plane w-5 text-center"></i>
+                                หนังสือส่ง
                             </a>
                         </li>
                         <li><a href="#"

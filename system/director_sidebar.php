@@ -16,6 +16,7 @@ if (!function_exists('sis4_teacher_sidebar_render')) {
         $homeworkActive = $currentPage === 'homework.php';
         $checkingActive = $currentPage === 'checking.php';
         $documentsActive = in_array($currentPage, ['incoming.php', 'documents.php'], true);
+        $outGoingActive = $currentPage === 'outgoing.php';
         $studentListActive = $currentPage === 'student_list.php';
         $attendanceActive = $currentPage === 'atten.php';
         $lessionPlanActive = $currentPage === 'lession_plan.php';
@@ -65,6 +66,13 @@ if (!function_exists('sis4_teacher_sidebar_render')) {
                                 หนังสือรับ
                             </a>
                         </li>
+                        <li>
+                            <a href="outgoing.php" class="<?= sis4_director_sidebar_link_class($outGoingActive) ?>">
+                                <i class="fa-solid fa-paper-plane w-5 text-center"></i>
+                                หนังสือส่ง
+                            </a>
+                        </li>
+                        
                         <li><a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i class="fa-regular fa-note-sticky w-5 text-center"></i> บันทึกภายใน</a></li>
                         <li><a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i class="fa-solid fa-share-nodes w-5 text-center"></i> หนังสือเวียน</a></li>
                         <li><a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i class="fa-solid fa-list-check w-5 text-center"></i> งานที่มอบหมาย</a></li>
