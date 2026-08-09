@@ -154,13 +154,13 @@ $leaves = dd_q("
                     <p class="text-sm text-slate-500 mt-1">ตรวจสอบและพิจารณาอนุมัติใบลาของครูและบุคลากร</p>
                 </div>
                 <a href="home.php"
-                    class="px-4 py-2 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-lg text-sm font-medium transition-colors">
+                    class="px-4 py-2 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 rounded text-sm font-medium transition-colors">
                     <i class="fa-solid fa-arrow-left mr-2"></i> กลับหน้าหลัก
                 </a>
             </div>
 
             <!-- Table Section -->
-            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+            <div class="bg-white border border-slate-200 rounded shadow-sm overflow-hidden">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-sm">
                         <thead class="text-xs text-slate-500 bg-slate-50/50 uppercase border-b border-slate-100">
@@ -239,11 +239,11 @@ $leaves = dd_q("
                                         <td class="px-5 py-4 align-top text-center">
                                             <?php
                                             if ($leave['directorStatus'] === 'อนุมัติแล้ว') {
-                                                echo '<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700"><i class="fa-solid fa-check mr-1.5"></i> อนุมัติแล้ว</span>';
+                                                echo '<span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold bg-emerald-100 text-emerald-700"><i class="fa-solid fa-check mr-1.5"></i> อนุมัติแล้ว</span>';
                                             } elseif ($leave['directorStatus'] === 'ไม่อนุมัติ') {
-                                                echo '<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-100 text-rose-700"><i class="fa-solid fa-xmark mr-1.5"></i> ไม่อนุมัติ</span>';
+                                                echo '<span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold bg-rose-100 text-rose-700"><i class="fa-solid fa-xmark mr-1.5"></i> ไม่อนุมัติ</span>';
                                             } else {
-                                                echo '<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-700"><i class="fa-regular fa-clock mr-1.5"></i> รอการอนุมัติ</span>';
+                                                echo '<span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold bg-amber-100 text-amber-700"><i class="fa-regular fa-clock mr-1.5"></i> รอการอนุมัติ</span>';
                                             }
                                             ?>
                                         </td>

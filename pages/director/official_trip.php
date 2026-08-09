@@ -253,44 +253,44 @@ foreach ($my_trips as $t) {
         <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-6">
             
             <?php if ($msg === 'success'): ?>
-                <div class="p-4 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-xl text-sm font-medium flex items-center gap-2 shadow-sm">
+                <div class="p-4 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded text-sm font-medium flex items-center gap-2 shadow-sm">
                     <i class="fa-solid fa-circle-check text-emerald-600"></i> สร้างคำขอไปราชการและบันทึกสู่ฐานข้อมูลเรียบร้อยแล้ว
                 </div>
             <?php elseif ($msg === 'updated'): ?>
-                <div class="p-4 bg-blue-50 text-blue-800 border border-blue-200 rounded-xl text-sm font-medium flex items-center gap-2 shadow-sm">
+                <div class="p-4 bg-blue-50 text-blue-800 border border-blue-200 rounded text-sm font-medium flex items-center gap-2 shadow-sm">
                     <i class="fa-solid fa-circle-check text-blue-600"></i> อัปเดตสถานะคำขอเรียบร้อยแล้ว
                 </div>
             <?php endif; ?>
 
             <!-- Stats -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm flex justify-between items-start">
+                <div class="bg-white p-5 rounded border border-gray-200 shadow-sm flex justify-between items-start">
                     <div>
                         <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">คำขอทั้งหมด</p>
                         <p class="text-3xl font-bold text-gray-900"><?= $stat_total ?></p>
                     </div>
-                    <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center text-lg"><i class="fa-solid fa-briefcase"></i></div>
+                    <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded flex items-center justify-center text-lg"><i class="fa-solid fa-briefcase"></i></div>
                 </div>
-                <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm flex justify-between items-start">
+                <div class="bg-white p-5 rounded border border-gray-200 shadow-sm flex justify-between items-start">
                     <div>
                         <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">รอพิจารณา</p>
                         <p class="text-3xl font-bold text-amber-600"><?= $stat_pending ?></p>
                     </div>
-                    <div class="w-10 h-10 bg-amber-50 text-amber-600 rounded-lg flex items-center justify-center text-lg"><i class="fa-regular fa-clock"></i></div>
+                    <div class="w-10 h-10 bg-amber-50 text-amber-600 rounded flex items-center justify-center text-lg"><i class="fa-regular fa-clock"></i></div>
                 </div>
-                <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm flex justify-between items-start">
+                <div class="bg-white p-5 rounded border border-gray-200 shadow-sm flex justify-between items-start">
                     <div>
                         <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">อนุมัติแล้ว</p>
                         <p class="text-3xl font-bold text-emerald-600"><?= $stat_approved ?></p>
                     </div>
-                    <div class="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center text-lg"><i class="fa-solid fa-check"></i></div>
+                    <div class="w-10 h-10 bg-emerald-50 text-emerald-600 rounded flex items-center justify-center text-lg"><i class="fa-solid fa-check"></i></div>
                 </div>
-                <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm flex justify-between items-start">
+                <div class="bg-white p-5 rounded border border-gray-200 shadow-sm flex justify-between items-start">
                     <div>
                         <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">งบประมาณที่อนุมัติ</p>
                         <p class="text-3xl font-bold text-gray-900"><?= number_format($stat_budget) ?> <span class="text-sm font-normal text-gray-500">บาท</span></p>
                     </div>
-                    <div class="w-10 h-10 bg-teal-50 text-teal-600 rounded-lg flex items-center justify-center text-lg"><i class="fa-solid fa-wallet"></i></div>
+                    <div class="w-10 h-10 bg-teal-50 text-teal-600 rounded flex items-center justify-center text-lg"><i class="fa-solid fa-wallet"></i></div>
                 </div>
             </div>
 
@@ -300,7 +300,7 @@ foreach ($my_trips as $t) {
                 <div class="lg:col-span-8 space-y-4">
 
                     <?php if (count($my_trips) === 0): ?>
-                        <div class="bg-white border border-gray-200 rounded-2xl p-12 text-center text-gray-500 shadow-sm">
+                        <div class="bg-white border border-gray-200 rounded p-12 text-center text-gray-500 shadow-sm">
                             <i class="fa-solid fa-folder-open text-4xl text-gray-300 mb-3 block"></i>
                             ยังไม่มีประวัติการยื่นคำขอไปราชการ
                         </div>
@@ -309,7 +309,7 @@ foreach ($my_trips as $t) {
                     <?php foreach ($my_trips as $trip):
                         $trip_days = (strtotime($trip['end_date']) - strtotime($trip['start_date'])) / (60 * 60 * 24) + 1;
                         ?>
-                        <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm relative">
+                        <div class="bg-white border border-gray-200 rounded p-6 shadow-sm relative">
                             <div class="flex items-center justify-between mb-4 pb-4 border-b border-gray-100">
                                 <div class="flex items-center gap-2">
                                     <span class="px-2.5 py-1 <?= $trip['type'] === 'ไปราชการ' ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-violet-50 text-violet-700 border border-violet-200' ?> rounded-lg text-[10px] font-bold uppercase tracking-wider">
@@ -393,7 +393,7 @@ foreach ($my_trips as $t) {
 
                 <!-- ฟอร์มสร้างคำขอใหม่ -->
                 <div class="lg:col-span-4">
-                    <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm sticky top-6">
+                    <div class="bg-white border border-gray-200 rounded p-6 shadow-sm sticky top-6">
                         <div class="flex items-center gap-2 pb-4 border-b border-gray-100 mb-5">
                             <i class="fa-solid fa-pen-to-square text-blue-600"></i>
                             <h3 class="font-bold text-gray-900 text-base">สร้างคำขอใหม่</h3>
