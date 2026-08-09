@@ -14,12 +14,12 @@ $stmt = dd_q("SELECT * FROM user WHERE id = ? LIMIT 1", [$_SESSION['id']]);
 if ($stmt->rowCount() === 1) {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     if ($user['role'] !== 'director') {
-        header("Location: ../../index.php"); 
+        header("Location: ../../index.php");
         exit();
     }
     $fullName = $user['prefix'] . $user['firstName'] . ' ' . $user['lastName'];
     $initial = mb_substr($user['firstName'], 0, 1, 'UTF-8');
-    $schoolName = "โรงเรียนตัวอย่าง"; 
+    $schoolName = "โรงเรียนตัวอย่าง";
     $academicYear = "2569";
 } else {
     session_destroy();
@@ -66,7 +66,7 @@ $plans = dd_q("
 
 // นำข้อมูลทั้ง 3 ตารางมารวมกัน และเรียงลำดับตามวันที่สร้างล่าสุด
 $documents = array_merge($leaves, $trips, $plans);
-usort($documents, function($a, $b) {
+usort($documents, function ($a, $b) {
     return strtotime($b['sort_date']) - strtotime($a['sort_date']);
 });
 $documents = array_slice($documents, 0, 5); // เอาแค่ 5 รายการล่าสุด
@@ -91,15 +91,18 @@ $up_leaves = dd_q("
 ")->fetchAll(PDO::FETCH_ASSOC);
 
 $schedules = array_merge($up_trips, $up_leaves);
-usort($schedules, function($a, $b) {
+usort($schedules, function ($a, $b) {
     return strtotime($a['sort_date']) - strtotime($b['sort_date']);
 });
 $schedules = array_slice($schedules, 0, 4);
 
-function getGreeting() {
+function getGreeting()
+{
     $hour = date('H');
-    if ($hour < 12) return "สวัสดีตอนเช้า";
-    if ($hour < 17) return "สวัสดีตอนบ่าย";
+    if ($hour < 12)
+        return "สวัสดีตอนเช้า";
+    if ($hour < 17)
+        return "สวัสดีตอนบ่าย";
     return "สวัสดีตอนเย็น";
 }
 $greeting = getGreeting();
@@ -107,6 +110,7 @@ $greeting = getGreeting();
 
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -114,28 +118,45 @@ $greeting = getGreeting();
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style> body { font-family: 'Prompt', sans-serif; } </style>
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+        }
+        nav {
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+        nav::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+    </style>
+
 </head>
+
 <body class="bg-[#f8fafc] text-slate-800 h-screen overflow-hidden flex">
 
-     <?php sis4_direcetor_sidebar_render($fullName, $initial); ?>
+    <?php sis4_direcetor_sidebar_render($fullName, $initial); ?>
 
     <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
-        
+
         <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 shrink-0">
             <div class="w-1/3">
                 <div class="relative">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 text-sm"></i>
-                    <input type="text" placeholder="ค้นหา..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm outline-none">
+                    <i
+                        class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 text-sm"></i>
+                    <input type="text" placeholder="ค้นหา..."
+                        class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm outline-none">
                 </div>
             </div>
             <div class="flex items-center gap-6">
                 <button class="relative text-slate-500 hover:text-indigo-600">
                     <i class="fa-regular fa-bell text-xl"></i>
-                    <span class="absolute -top-1.5 -right-1.5 bg-rose-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center"><?= htmlspecialchars($statTotalPending) ?></span>
+                    <span
+                        class="absolute -top-1.5 -right-1.5 bg-rose-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center"><?= htmlspecialchars($statTotalPending) ?></span>
                 </button>
                 <div class="flex items-center gap-3 pl-6 border-l border-slate-200">
-                    <div class="w-9 h-9 rounded-full bg-teal-500 text-white flex items-center justify-center font-semibold text-sm">
+                    <div
+                        class="w-9 h-9 rounded-full bg-teal-500 text-white flex items-center justify-center font-semibold text-sm">
                         <?= htmlspecialchars($initial) ?>
                     </div>
                     <div class="text-xs">
@@ -147,15 +168,18 @@ $greeting = getGreeting();
         </header>
 
         <main class="flex-1 overflow-y-auto p-6 md:p-8 space-y-6">
-            
+
             <div class="flex items-start justify-between">
                 <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-xl">
+                    <div
+                        class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-xl">
                         <i class="fa-solid fa-border-all"></i>
                     </div>
                     <div>
-                        <h2 class="text-2xl font-bold text-slate-800"><?= $greeting ?> <?= htmlspecialchars($fullName) ?></h2>
-                        <p class="text-sm text-slate-500 mt-1">ผู้อำนวยการ &middot; <?= htmlspecialchars($schoolName) ?></p>
+                        <h2 class="text-2xl font-bold text-slate-800"><?= $greeting ?>
+                            <?= htmlspecialchars($fullName) ?></h2>
+                        <p class="text-sm text-slate-500 mt-1">ผู้อำนวยการ &middot; <?= htmlspecialchars($schoolName) ?>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -181,7 +205,7 @@ $greeting = getGreeting();
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-                
+
                 <!-- Pending List -->
                 <div class="lg:col-span-2 bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
                     <div class="p-5 border-b border-slate-100">
@@ -198,20 +222,26 @@ $greeting = getGreeting();
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-slate-100">
-                                <?php if(empty($documents)): ?>
-                                <tr><td colspan="4" class="px-5 py-8 text-center text-slate-500">ไม่มีรายการรอพิจารณา</td></tr>
-                                <?php else: ?>
-                                    <?php foreach($documents as $doc): ?>
-                                    <tr class="hover:bg-slate-50">
-                                        <td class="px-5 py-4">
-                                            <span class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700">
-                                                <?= htmlspecialchars($doc['category']) ?>
-                                            </span>
+                                <?php if (empty($documents)): ?>
+                                    <tr>
+                                        <td colspan="4" class="px-5 py-8 text-center text-slate-500">ไม่มีรายการรอพิจารณา
                                         </td>
-                                        <td class="px-5 py-4 font-medium text-slate-800"><?= htmlspecialchars($doc['subject']) ?></td>
-                                        <td class="px-5 py-4 text-slate-600"><?= htmlspecialchars($doc['sender']) ?></td>
-                                        <td class="px-5 py-4 text-slate-500 text-xs"><?= htmlspecialchars($doc['doc_date_th']) ?></td>
                                     </tr>
+                                <?php else: ?>
+                                    <?php foreach ($documents as $doc): ?>
+                                        <tr class="hover:bg-slate-50">
+                                            <td class="px-5 py-4">
+                                                <span
+                                                    class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700">
+                                                    <?= htmlspecialchars($doc['category']) ?>
+                                                </span>
+                                            </td>
+                                            <td class="px-5 py-4 font-medium text-slate-800">
+                                                <?= htmlspecialchars($doc['subject']) ?></td>
+                                            <td class="px-5 py-4 text-slate-600"><?= htmlspecialchars($doc['sender']) ?></td>
+                                            <td class="px-5 py-4 text-slate-500 text-xs">
+                                                <?= htmlspecialchars($doc['doc_date_th']) ?></td>
+                                        </tr>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </tbody>
@@ -225,22 +255,25 @@ $greeting = getGreeting();
                         <i class="fa-regular fa-calendar-check text-amber-500"></i>
                         <h3 class="font-bold text-slate-800 text-base">กำหนดการใกล้ถึง</h3>
                     </div>
-                    
+
                     <div class="space-y-4 pl-4 border-l-2 border-slate-100">
-                        <?php if(empty($schedules)): ?>
+                        <?php if (empty($schedules)): ?>
                             <p class="text-sm text-slate-500 py-4">ไม่มีกำหนดการในระยะนี้</p>
                         <?php else: ?>
-                            <?php foreach($schedules as $task): ?>
-                            <?php $days_text = ($task['days_left'] == 0) ? "วันนี้" : "อีก " . $task['days_left'] . " วัน"; ?>
-                            <div class="relative">
-                                <div class="absolute left-0 w-2.5 h-2.5 bg-<?= htmlspecialchars($task['color_theme']) ?>-500 rounded-full -ml-[21px] mt-1.5 border-2 border-white"></div>
-                                <h4 class="text-sm font-bold text-slate-800"><?= htmlspecialchars($task['title']) ?></h4>
-                                <p class="text-xs text-slate-500 mt-1"><?= htmlspecialchars($task['description']) ?></p>
-                                <p class="text-[11px] text-slate-400 mt-1">
-                                    <?= htmlspecialchars($task['date_text']) ?> &middot; 
-                                    <span class="text-<?= htmlspecialchars($task['color_theme']) ?>-600 font-medium"><?= $days_text ?></span>
-                                </p>
-                            </div>
+                            <?php foreach ($schedules as $task): ?>
+                                <?php $days_text = ($task['days_left'] == 0) ? "วันนี้" : "อีก " . $task['days_left'] . " วัน"; ?>
+                                <div class="relative">
+                                    <div
+                                        class="absolute left-0 w-2.5 h-2.5 bg-<?= htmlspecialchars($task['color_theme']) ?>-500 rounded-full -ml-[21px] mt-1.5 border-2 border-white">
+                                    </div>
+                                    <h4 class="text-sm font-bold text-slate-800"><?= htmlspecialchars($task['title']) ?></h4>
+                                    <p class="text-xs text-slate-500 mt-1"><?= htmlspecialchars($task['description']) ?></p>
+                                    <p class="text-[11px] text-slate-400 mt-1">
+                                        <?= htmlspecialchars($task['date_text']) ?> &middot;
+                                        <span
+                                            class="text-<?= htmlspecialchars($task['color_theme']) ?>-600 font-medium"><?= $days_text ?></span>
+                                    </p>
+                                </div>
                             <?php endforeach; ?>
                         <?php endif; ?>
                     </div>
@@ -250,4 +283,5 @@ $greeting = getGreeting();
         </main>
     </div>
 </body>
+
 </html>

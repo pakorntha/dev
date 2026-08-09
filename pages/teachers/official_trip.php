@@ -111,7 +111,7 @@ if (isset($_GET['print_id'])) {
         <div style="text-align: center; font-size: 14px; margin-top: 60px; margin-left: 50%;">
             (ผู้อำนวยการ โรงเรียน)<br>
             ผู้อำนวยการโรงเรียน '. $school_name .'<br>
-            สพป.ขอนแก่น เขต ๑
+            สพป.ร้อยเอ็ด เขต ๓
         </div>
         ';
 
