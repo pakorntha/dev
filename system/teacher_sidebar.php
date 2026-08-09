@@ -45,7 +45,8 @@ if (!function_exists('sis4_teacher_sidebar_render')) {
                 </div>
 
                 <div>
-                    <p class="px-3 text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-2">งานรายวิชาที่รับผิดชอบ</p>
+                    <p class="px-3 text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-2">งานรายวิชาที่รับผิดชอบ
+                    </p>
                     <ul class="space-y-1">
                         <li>
                             <a href="homework.php" class="<?= sis4_teacher_sidebar_link_class($homeworkActive) ?>">
@@ -65,9 +66,15 @@ if (!function_exists('sis4_teacher_sidebar_render')) {
                                 หนังสือรับ
                             </a>
                         </li>
-                        <li><a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i class="fa-regular fa-note-sticky w-5 text-center"></i> บันทึกภายใน</a></li>
-                        <li><a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i class="fa-solid fa-share-nodes w-5 text-center"></i> หนังสือเวียน</a></li>
-                        <li><a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i class="fa-solid fa-list-check w-5 text-center"></i> งานที่มอบหมาย</a></li>
+                        <li><a href="#"
+                                class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i
+                                    class="fa-regular fa-note-sticky w-5 text-center"></i> บันทึกภายใน</a></li>
+                        <li><a href="#"
+                                class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i
+                                    class="fa-solid fa-share-nodes w-5 text-center"></i> หนังสือเวียน</a></li>
+                        <li><a href="#"
+                                class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i
+                                    class="fa-solid fa-list-check w-5 text-center"></i> งานที่มอบหมาย</a></li>
                     </ul>
                 </div>
 
@@ -82,8 +89,7 @@ if (!function_exists('sis4_teacher_sidebar_render')) {
                         </li>
                         <li><a href="leave.php" class="<?= sis4_teacher_sidebar_link_class($leaveActive) ?>"><i
                                     class="fa-regular fa-calendar-minus w-5 text-center"></i> การลา</a></li>
-                        <li><a href="official_trip.php"
-                                class="<?= sis4_teacher_sidebar_link_class($officialTripActive) ?>"><i
+                        <li><a href="official_trip.php" class="<?= sis4_teacher_sidebar_link_class($officialTripActive) ?>"><i
                                     class="fa-solid fa-plane w-5 text-center"></i> ไปราชการและอบรม</a></li>
                     </ul>
                 </div>
@@ -103,9 +109,18 @@ if (!function_exists('sis4_teacher_sidebar_render')) {
                                 การมาเรียนนักเรียน
                             </a>
                         </li>
-                        <li><a href="lession_plan.php" class=" <?= sis4_teacher_sidebar_link_class($lessionPlanActive) ?>"><i class="fa-solid fa-book-open w-5 text-center"></i> แผนการสอน</a></li>
-                        <li><a href="supervision.php" class=" <?= sis4_teacher_sidebar_link_class($supervisionActive) ?>"><i class="fa-solid fa-eye w-5 text-center"></i> นิเทศการสอน</a></li>
-                        <li><a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i class="fa-solid fa-shield-halved w-5 text-center"></i> ประกันคุณภาพภายใน</a></li>
+                        <li><a href="lession_plan.php" class=" <?= sis4_teacher_sidebar_link_class($lessionPlanActive) ?>"><i
+                                    class="fa-solid fa-book-open w-5 text-center"></i> แผนการสอน</a></li>
+                        <li><a href="supervision.php" class=" <?= sis4_teacher_sidebar_link_class($supervisionActive) ?>"><i
+                                    class="fa-solid fa-eye w-5 text-center"></i> นิเทศการสอน</a></li>
+                        <li><a href="#"
+                                class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i
+                                    class="fa-solid fa-shield-halved w-5 text-center"></i> ประกันคุณภาพภายใน</a>
+                        </li>
+                        <li><a href="wellbeing.php"
+                                class="flex items-center gap-3 px-3 py-2 hover:bg-gray-800 hover:text-white rounded transition-colors"><i
+                                    class="fa-solid fa-shield-heart w-5 text-center"></i> ดูแลสุขภาวะนักเรียน</a>
+                        </li>
                     </ul>
                 </div>
 
